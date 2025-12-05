@@ -92,7 +92,7 @@ def _build_client(
 
 @dataclass
 class LightkubeAsyncBenchmark(Benchmark):
-    client: str = "lightkube-async"
+    client: str = "lightkube (async)"
 
     api_client = None
     verify_path: str | None = None

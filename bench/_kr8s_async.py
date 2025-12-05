@@ -13,7 +13,7 @@ from .benchmark import Benchmark
 
 @dataclass
 class Kr8sAsyncBenchmark(Benchmark):
-    client: str = "kr8s-async"
+    client: str = "kr8s (async)"
 
     api = None
 
