@@ -1,0 +1,41 @@
+name: "Bench"
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  publish:
+    runs-on: puzl-ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      K8S_VERSION: 'v1.33.4'
+      BASE_KIND_IMAGE: 'kindest/node'
+      OUTPUT_DIR: 'output'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 #v6.0.0
+      - name: Set up Python
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 #v6.1.0
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Set up kind cluster
+        uses: helm/kind-action@92086f6be054225fa813e0a4b13787fc9088faab #v1.13.0
+        with:
+          image: '${{ env.BASE_KIND_IMAGE }}:${{ env.K8S_VERSION }}'
+          kubectl_version: '${{ env.K8S_VERSION }}'
+      - name: Wait for all kube-system pods
+        run: |
+          kubectl wait --for=condition=Ready pod --all -n kube-system --timeout=120s
+      - name: Run Python app
+        run: python -u app.py
+      - name: Zip output directory
+        run: zip -r bench.zip ${{ env.OUTPUT_DIR }}
+      - name: Create or update release on main
+        uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b #v1.20.0
+        with:
+          artifacts: bench.zip
