@@ -1,0 +1,12 @@
+kubernetes==34.1.0
+kubernetes-asyncio==33.3.0
+lightkube==0.18.0
+
+kr8s==0.20.13
+sniffio  # for kr8s
+
+kubesdk==0.0.6
+
+uvloop==0.22.1  # for all of us
+pandas==2.3.3
+matplotlib==3.10.7
