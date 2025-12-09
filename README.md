@@ -10,7 +10,7 @@ Benchmark results in this repo were collected against **[kind](https://github.co
 
 ![python_kubernetes_clients_benchmark.png](./python_kubernetes_clients_benchmark.png)
 
-Combined benchmark results (objects per second).
+### Combined benchmark results (objects per second).
 
 | Client             | Objects |  POST |   GET |  Watch | DELETE |
 | ------------------ | ------: | ----: | ----: | -----: | -----: |
